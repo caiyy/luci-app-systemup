@@ -5,7 +5,7 @@ t = f:field(TextValue, "conf")
 t.rmempty = true
 t.rows = 30
 function t.cfgvalue()
-    local logs = luci.util.execi("cat /tmp/log/systemup.log")
+    local logs = luci.util.execi("cat /tmp/systemup.log")
     local s = ""
     for line in logs do
         s = line .. "\n" .. s

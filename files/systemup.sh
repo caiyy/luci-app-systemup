@@ -13,7 +13,7 @@ printMsg() {
     local time=$(date "+%Y-%m-%d %H:%M:%S")
     local msg="$1"
 	local push="$2"
-    echo "$time: $msg"
+    echo "$time: $msg" >> $LOG_FILE
 	if [ -n "$push" ];then
 		#echo "$push"
 		curl "https://api.day.app/$push_key/路由器更新通知/$1"
@@ -39,7 +39,8 @@ if [ $firwmare_date -lt '2000' ];then
 	# echo '*/1 * * * * /usr/sbin/systemup.sh >> /var/log/systemup.log'>>/etc/crontabs/root
 	#new_caiyy="*/1 * * * * /usr/sbin/systemup.sh >> /var/log/systemup.log"
 	#sed -i 's/^.*systemup.*$/$new_caiyy/g' /etc/crontabs/root
-	sed -i 's/^.*systemup.*$/\*\/10\ \*\ \*\ \*\ \*\ \/usr\/sbin\/systemup.sh\ \>\>\ \/var\/log\/systemup.log/g' /etc/crontabs/root
+	#sed -i 's/^.*systemup.*$/\*\/10\ \*\ \*\ \*\ \*\ \/usr\/sbin\/systemup.sh\ \>\>\ \/var\/log\/systemup.log/g' /etc/crontabs/root
+	sed -i 's/^.*systemup.*$/\*\/10\ \*\ \*\ \*\ \*\ \/usr\/sbin\/systemup.sh/g' /etc/crontabs/root
 	/etc/init.d/cron restart
 	# echo "第一次启动检查完毕"
 	printMsg "第一次启动检查完毕.."
