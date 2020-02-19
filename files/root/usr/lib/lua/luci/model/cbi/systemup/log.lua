@@ -3,7 +3,7 @@ f.reset = false
 f.submit = false
 t = f:field(TextValue, "conf")
 t.rmempty = true
-t.rows = 60
+t.rows = 30
 function t.cfgvalue()
     local logs = luci.util.execi("cat /tmp/log/systemup.log")
     local s = ""
