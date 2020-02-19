@@ -68,8 +68,12 @@ else
 		sha256sumaa=`grep -A 0 "$firmware_name" $firmware_sha256sum_name`
 		firmware_sha256sum=`sha256sum "$firmware_name"`
 		if [ "$sha256sumaa" == "$firmware_sha256sum" ];then
-			uci set systemup.base_arg.firwmare_date="200"
+			#uci set systemup.base_arg.firwmare_date="200"
+			#uci commit systemup
+			#new_time=`curl "$firmware_url/$firwmare_date_file"`
+			uci set systemup.base_arg.firwmare_date=$new_time
 			uci commit systemup
+			sleep 10
 			if [ -n $push_key ];then
 				printMsg "固件效验通过,提交刷机命令.请耐心等待路由器重启..." "ts"
 			else
