@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-systemup
-PKG_VERSION:=4.0
-PKG_RELEASE:=1
+PKG_VERSION:=4.1
+PKG_RELEASE:=0.1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
