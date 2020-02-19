@@ -36,31 +36,25 @@ if [ $firwmare_date -lt '2000' ];then
 	new_time=`curl "$firmware_url/$firwmare_date_file"`
     uci set systemup.base_arg.firwmare_date=$new_time
     uci commit systemup
-	# echo '*/1 * * * * /usr/sbin/systemup.sh >> /var/log/systemup.log'>>/etc/crontabs/root
-	#new_caiyy="*/1 * * * * /usr/sbin/systemup.sh >> /var/log/systemup.log"
-	#sed -i 's/^.*systemup.*$/$new_caiyy/g' /etc/crontabs/root
-	#sed -i 's/^.*systemup.*$/\*\/10\ \*\ \*\ \*\ \*\ \/usr\/sbin\/systemup.sh\ \>\>\ \/var\/log\/systemup.log/g' /etc/crontabs/root
-	sed -i 's/^.*systemup.*$/\*\/10\ \*\ \*\ \*\ \*\ \/usr\/sbin\/systemup.sh/g' /etc/crontabs/root
+	#添加任务计划
+	if [ "0" -ge `grep -c "systemup" /etc/crontabs/root` ] ;then
+		echo "*/10 * * * * /usr/sbin/systemup.sh" >> /etc/crontabs/root
+	fi
+	#重启任务计划
 	/etc/init.d/cron restart
-	# echo "第一次启动检查完毕"
 	printMsg "第一次启动检查完毕.."
 else
-	#old_time=`cat "date.txt"`
     old_time=$firwmare_date
 	new_time=`curl "$firmware_url/$firwmare_date_file"`
-	#echo $old_time
-	#echo $new_time
 	printMsg "old-time:$old_time.."
 	printMsg "new-time:$new_time.."
 	if [ $old_time -ge $new_time ];then
-		#echo "本机固件比线上固件新"
-		printMsg "未检查到更新"
+		printMsg "未检查到固件更新"
 	else
-		#echo "本机固件比线上固件旧"
 		if [ -n $push_key ];then
-			printMsg "检查到固件更新,正在下载新固件、固件编译日期:$new_time"
-		else
 			printMsg "检查到固件更新,正在下载新固件、固件编译日期:$new_time" "ts"
+		else
+			printMsg "检查到固件更新,正在下载新固件、固件编译日期:$new_time"
 		fi
 		cd /tmp/
 		wget $firmware_url/$firmware_name
@@ -72,14 +66,10 @@ else
 			printMsg "固件下载完毕,正在检查固件的sha256sum效验值"
 		fi
 		sha256sumaa=`grep -A 0 "$firmware_name" $firmware_sha256sum_name`
-		#$sha256sum=${sha256sum/\*/ }
 		firmware_sha256sum=`sha256sum "$firmware_name"`
-		#echo "A:$firmware_sha256sum"
-		#echo "B:$sha256sumaa"
 		if [ "$sha256sumaa" == "$firmware_sha256sum" ];then
-			uci set systemup.base_arg.firwmare_date="200"
-			uci commit systemup
-			#echo "固件验证通过,提交刷机命令"
+			#uci set systemup.base_arg.firwmare_date="200"
+			#uci commit systemup
 			if [ -n $push_key ];then
 				printMsg "固件效验通过,提交刷机命令.请耐心等待路由器重启..." "ts"
 			else
@@ -87,9 +77,7 @@ else
 			fi
 			# 路由器刷机命令
 			sysupgrade -v openwrt-x86-64-combined-squashfs.img.gz
-            #echo "sysupgrade-vopenwrt-x86-64-combined-squashfs.img.gz"
 		else
-			#echo "固件验证不通过,放弃刷机"
 			if [ -n $push_key ];then
 				printMsg "固件效验不通过,请等待下次检查." "ts"
 			else
