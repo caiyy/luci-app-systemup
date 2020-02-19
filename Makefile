@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-systemup
-PKG_VERSION:=3.3
-PKG_RELEASE:=36
+PKG_VERSION:=4.0
+PKG_RELEASE:=1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
@@ -34,12 +34,13 @@ endef
 define Package/luci-app-systemup/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/systemup
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
 
 	$(INSTALL_CONF) ./files/root/etc/config/systemup $(1)/etc/config/systemup
 	$(INSTALL_BIN) ./files/root/etc/init.d/systemup $(1)/etc/init.d/systemup
-	$(INSTALL_DATA) ./files/root/usr/lib/lua/luci/model/cbi/systemup.lua $(1)/usr/lib/lua/luci/model/cbi/systemup.lua
+	$(INSTALL_DATA) ./files/root/usr/lib/lua/luci/model/cbi/systemup/log.lua $(1)/usr/lib/lua/luci/model/cbi/systemup/log.lua
+	$(INSTALL_DATA) ./files/root/usr/lib/lua/luci/model/cbi/systemup/client.lua $(1)/usr/lib/lua/luci/model/cbi/systemup/client.lua
 	$(INSTALL_DATA) ./files/root/usr/lib/lua/luci/controller/systemup.lua $(1)/usr/lib/lua/luci/controller/systemup.lua
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) ./files/systemup.sh $(1)/usr/sbin
