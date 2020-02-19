@@ -5,4 +5,5 @@ config base_arg "base_arg"
 	option firwmare_date_file 'date.txt'
 	option firwmare_date '20'
 	option update_time '1440'
+	option push_key ''
 
