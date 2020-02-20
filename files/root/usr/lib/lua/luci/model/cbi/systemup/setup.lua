@@ -12,8 +12,6 @@ s:option(Value, "firmware_sha256sum", translate("固件sha256sum"), "固件的sh
 s:option(Value, "firwmare_date_file", translate("固件版本信息文件"), "date.txt")
 s:option(Value, "firwmare_date", translate("当前版本编译时间"), "当前版本编译时间")
 s:option(Value, "push_key", translate("信息推送key"), "一个消息推送软件的Key,AppStore搜索Bark下载即可,不填写即不推送")
---wait = s:option(Value, "update_time", translate("更新周期(m)"), "请填写数字，默认为1440")
---command = s:option(Value, "command_to_get_ip", translate("外网ip获取命令"), "默认为 curl -s whatismyip.akamai.com")
 
 local apply = luci.http.formvalue("cbi.apply")
 if apply then

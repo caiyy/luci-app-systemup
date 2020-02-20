@@ -1,11 +1,11 @@
 #!/bin/ash
-firmware_url=`uci get systemup.base_arg.firmware_url 2>/dev/null`
-firmware_name=`uci get systemup.base_arg.firmware_name 2>/dev/null`
-firmware_sha256sum_name=`uci get systemup.base_arg.firmware_sha256sum 2>/dev/null`
-firwmare_date_file=`uci get systemup.base_arg.firwmare_date_file 2>/dev/null`
-firwmare_date=`uci get systemup.base_arg.firwmare_date 2>/dev/null`
-update_time=`uci get systemup.base_arg.update_time 2>/dev/null`
-push_key=`uci get systemup.base_arg.push_key 2>/dev/null`
+firmware_url=`uci get systemup.base_arg.firmware_url`
+firmware_name=`uci get systemup.base_arg.firmware_name`
+firmware_sha256sum_name=`uci get systemup.base_arg.firmware_sha256sum`
+firwmare_date_file=`uci get systemup.base_arg.firwmare_date_file`
+firwmare_date=`uci get systemup.base_arg.firwmare_date`
+update_time=`uci get systemup.base_arg.update_time`
+push_key=`uci get systemup.base_arg.push_key`
 
 LOG_FILE="/tmp/systemup.log"
 
@@ -15,19 +15,11 @@ printMsg() {
 	local push="$2"
     echo "$time: $msg" >> $LOG_FILE
 	if [ -n "$push" ];then
-		#echo "$push"
 		curl "https://api.day.app/$push_key/路由器更新通知/$1"
 	fi
 }
 printMsg "----------------------------"
 printMsg "开始执行脚本.."
-
-#echo "firmware_url:$firmware_url"
-#echo "firmware_name:$firmware_name"
-#echo "firmware_sha256sum:$firmware_sha256sum"
-#echo "firwmare_date_file:$firwmare_date_file"
-#echo "firwmare_date:$firwmare_date"
-#echo "update_time:$update_time"
 
 cd /root/
 rm /tmp/$firmware_sha256sum
@@ -42,6 +34,9 @@ if [ $firwmare_date -lt '2000' ];then
 	fi
 	#重启任务计划
 	/etc/init.d/cron restart
+	#设置默认主题
+    uci set batch.main.mediaurlbase=/luci-static/argon
+	uci commit luci
 	printMsg "第一次启动检查完毕.."
 else
     old_time=$firwmare_date
@@ -68,9 +63,6 @@ else
 		sha256sumaa=`grep -A 0 "$firmware_name" $firmware_sha256sum_name`
 		firmware_sha256sum=`sha256sum "$firmware_name"`
 		if [ "$sha256sumaa" == "$firmware_sha256sum" ];then
-			#uci set systemup.base_arg.firwmare_date="200"
-			#uci commit systemup
-			#new_time=`curl "$firmware_url/$firwmare_date_file"`
 			uci set systemup.base_arg.firwmare_date=$new_time
 			uci commit systemup
 			sleep 10
