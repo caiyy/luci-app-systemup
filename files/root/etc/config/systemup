@@ -1,9 +1,9 @@
 config base_arg "base_arg"
-	option firmware_url 'http://192.168.1.109:8080/bin'
-	option firmware_name 'openwrt-x86-64-combined-squashfs.img.gz'
-	option firmware_sha256sum 'sha256sums'
-	option firwmare_date_file 'date.txt'
-	option firwmare_date '20'
-	option update_time '1440'
-	option push_key ''
+    option firmware_url 'http://192.168.1.109:8080/bin'
+    option firmware_name 'openwrt-x86-64-combined-squashfs.img.gz'
+    option firmware_sha256sum 'sha256sums'
+    option firwmare_date_file 'date.txt'
+    option firwmare_date '20'
+    option update_time '1440'
+    option push_key ''
 
