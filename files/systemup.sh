@@ -21,6 +21,13 @@ printMsg() {
 printMsg "----------------------------"
 printMsg "开始执行脚本.."
 
+if [ ! -d LOG_FILE ]; then
+    #设置默认主题
+    uci set batch.main.mediaurlbase=/luci-static/argon
+    uci commit luci
+    printMsg "第一次启动,设置主题完毕.."
+fi
+
 cd /root/
 rm /tmp/$firmware_sha256sum
 rm /tmp/$firmware_name
@@ -34,9 +41,6 @@ if [ $firwmare_date -lt '2000' ];then
     fi
     #重启任务计划
     /etc/init.d/cron restart
-    #设置默认主题
-    uci set batch.main.mediaurlbase=/luci-static/argon
-    uci commit luci
     printMsg "第一次启动检查完毕.."
 else
     old_time=$firwmare_date
