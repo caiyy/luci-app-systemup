@@ -44,8 +44,8 @@ if [ $firwmare_date -lt '2000' ];then
     /etc/init.d/cron restart
     printMsg "第一次启动检查完毕.."
 else
+    sleep 10 #延迟10秒再执行
     old_time=$firwmare_date
-    sleep 5
     new_time=`curl "$firmware_url/$firwmare_date_file"`
     if [ -n new_time ];then
         printMsg "old-time:$old_time.."
