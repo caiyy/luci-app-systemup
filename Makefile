@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-systemup
-PKG_VERSION:=4.8
-PKG_RELEASE:=2
+PKG_VERSION=5.0
+PKG_RELEASE:=1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
@@ -19,7 +19,7 @@ define Package/luci-app-systemup
 endef
 
 define Package/luci-app-systemup/description
-    auto get pub ip,systemup ddns,must include curl with ssl
+    AutoUpdateSystem
 endef
 
 define Build/Prepare
@@ -32,21 +32,16 @@ define Build/Compile
 endef
 
 define Package/luci-app-systemup/install
-    $(INSTALL_DIR) $(1)/etc/config
-    $(INSTALL_DIR) $(1)/etc/init.d
-    $(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/systemup
-    $(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
-
-    $(INSTALL_CONF) ./files/root/etc/config/systemup $(1)/etc/config/systemup
-    $(INSTALL_BIN) ./files/root/etc/init.d/systemup $(1)/etc/init.d/systemup
-    $(INSTALL_DATA) ./files/root/usr/lib/lua/luci/model/cbi/systemup/log.lua $(1)/usr/lib/lua/luci/model/cbi/systemup/log.lua
-    $(INSTALL_DATA) ./files/root/usr/lib/lua/luci/model/cbi/systemup/setup.lua $(1)/usr/lib/lua/luci/model/cbi/systemup/setup.lua
-    $(INSTALL_DATA) ./files/root/usr/lib/lua/luci/controller/systemup.lua $(1)/usr/lib/lua/luci/controller/systemup.lua
-    $(INSTALL_DIR) $(1)/usr/sbin
-    $(INSTALL_BIN) ./files/systemup.sh $(1)/usr/sbin
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/systemup
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
+	$(INSTALL_CONF) ./files/root/etc/config/systemup $(1)/etc/config/systemup
+	$(INSTALL_BIN) ./files/root/etc/init.d/systemup $(1)/etc/init.d/systemup
+	$(INSTALL_DATA) ./files/root/usr/lib/lua/luci/model/cbi/systemup/log.lua $(1)/usr/lib/lua/luci/model/cbi/systemup/log.lua
+	$(INSTALL_DATA) ./files/root/usr/lib/lua/luci/model/cbi/systemup/setup.lua $(1)/usr/lib/lua/luci/model/cbi/systemup/setup.lua
+	$(INSTALL_DATA) ./files/root/usr/lib/lua/luci/controller/systemup.lua $(1)/usr/lib/lua/luci/controller/systemup.lua
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) ./files/systemup.sh $(1)/usr/sbin
 endef
-
 $(eval $(call BuildPackage,luci-app-systemup))
-
-
-

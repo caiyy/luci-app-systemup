@@ -21,11 +21,10 @@ printMsg() {
 printMsg "----------------------------"
 printMsg "开始执行脚本.."
 
-if [ ! -d LOG_FILE ]; then
-    #设置默认主题
-    uci set batch.main.mediaurlbase=/luci-static/argon
-    uci commit luci
-    printMsg "第一次启动,设置主题完毕.."
+Theme=`uci get luci.main.mediaurlbase`
+if [ $Theme -eq "/luci-static/argon" ]; then
+    uci set luci.main.mediaurlbase="/luci-static/argon"
+    printMsg "检测到主题不是指定的argon主题,设置为argon主题完毕.."
 fi
 
 cd /root/
