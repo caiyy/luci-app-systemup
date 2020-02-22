@@ -22,7 +22,8 @@ printMsg "----------------------------"
 printMsg "开始执行脚本.."
 
 Theme=`uci get luci.main.mediaurlbase`
-if [ $Theme -eq "/luci-static/argon" ]; then
+argon="/luci-static/argon"
+if [ "$Theme" != "$argon" ];then
     uci set luci.main.mediaurlbase="/luci-static/argon"
     uci commit luci
     sleep 5
