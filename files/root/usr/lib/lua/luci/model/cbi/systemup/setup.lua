@@ -1,11 +1,11 @@
 require("luci.sys")
 
-m = Map("systemup", translate("自动升级系统 V5.0.7.3"))
+m = Map("systemup", translate("自动升级系统 V5.0.7.4"))
 
 s = m:section(TypedSection, "base_arg", "")
 s.addremove = false
 s.anonymous = true
-print(m)
+
 -- make package/openwrt-packages/luci-app-systemup/compile -j5
 s:option(Value, "firmware_url", translate("固件服务器地址"), "格式:http://domain/xxx,不要有/结尾")
 s:option(Value, "firmware_name", translate("固件的文件名字"), "比如 openwrt-x86-64-combined-squashfs.img.gz")
