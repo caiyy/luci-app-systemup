@@ -48,7 +48,7 @@ else
     sleep 10 #延迟10秒再执行
     old_time=$firwmare_date
     new_time=`curl "$firmware_url/$firwmare_date_file"`
-    if [ -n new_time ];then
+    if [ -n $new_time ];then
         printMsg "old-time:$old_time.."
         printMsg "new-time:$new_time.."
         if [ $old_time -ge $new_time ];then
