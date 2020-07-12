@@ -81,6 +81,7 @@ else
                 fi
                 # 路由器刷机命令
                 sysupgrade -v openwrt-x86-64-combined-squashfs.img.gz
+                sysupgrade -v $firwmare_date_file
             else
                 if [ -n $push_key ];then
                     printMsg "固件效验不通过,请等待下次检查." "ts"
