@@ -1,6 +1,6 @@
 require("luci.sys")
 
-m = Map("systemup", translate("自动升级系统 V5.0.7.4"))
+m = Map("systemup", translate("自动升级系统 V5.0.7.5"))
 
 s = m:section(TypedSection, "base_arg", "")
 s.addremove = false
