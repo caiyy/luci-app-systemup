@@ -80,7 +80,7 @@ else
                     printMsg "固件效验通过,提交刷机命令.请耐心等待路由器重启..."
                 fi
                 # 路由器刷机命令
-                sysupgrade -v openwrt-x86-64-combined-squashfs.img.gz
+                # sysupgrade -v openwrt-x86-64-combined-squashfs.img.gz
                 sysupgrade -v $firwmare_date_file
             else
                 if [ -n $push_key ];then
